@@ -80,7 +80,7 @@ exports.save = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     console.log( req.body );
     logData(req);
-    res.send(200, 'Save');
+    res.status(200).json({ success: true, message: 'Save accepted' });
 };
 
 /*
@@ -100,7 +100,7 @@ exports.execute = function (req, res) {
     const accountSid = requestBody.accountSid;
     const authToken = requestBody.authToken;
     const to = requestBody.to;
-    const from = requestBody.messagingService;
+    const messagingService = requestBody.messagingService;
     const body = requestBody.body;;
 
     const client = require('twilio')(accountSid, authToken); 
@@ -108,7 +108,7 @@ exports.execute = function (req, res) {
     client.messages 
           .create({ 
              body: body,
-             messagingService: messagingService,
+                         messagingService: messagingService,
              to: to
            }) 
           .then(message => console.log(message.sid)) 
@@ -118,7 +118,7 @@ exports.execute = function (req, res) {
 
     // FOR TESTING
     logData(req);
-    res.send(200, 'Publish');
+    res.status(200).json({ success: true, message: 'Execute accepted' });
 
     // Used to decode JWT
     // JWT(req.body, process.env.jwtSecret, (err, decoded) => {
@@ -158,8 +158,16 @@ exports.publish = function (req, res) {
     
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
-//     logData(req);
-//     res.send(200, 'Publish');
+    logData(req);
+    res.status(200).json({ success: true, message: 'Publish accepted' });
+};
+
+/*
+ * POST Handler for /stop/ route of Activity.
+ */
+exports.stop = function (req, res) {
+    logData(req);
+    res.status(200).json({ success: true, message: 'Stop accepted' });
 };
 
 /*
@@ -177,5 +185,5 @@ exports.validate = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     logData(req);
-    res.send(200, 'Validate');
+    res.status(200).json({ success: true, message: 'Validate accepted' });
 };
